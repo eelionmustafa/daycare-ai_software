@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme {
+  /* Mësimi Kreativ — warm paper, terracotta, sage. Photos are the hero;
+     the palette stays quiet behind them. */
+  --color-cream: #faf6ef;
+  --color-paper: #f3ecdf;
+  --color-ink: #3b322a;
+  --color-ink-soft: #6f6257;
+  --color-terracotta: #d96c4f;
+  --color-terracotta-deep: #b95238;
+  --color-sage: #7c9885;
+  --color-sage-deep: #5d7a66;
+  --color-sun: #edb94e;
+  --color-blush: #f3e2d6;
+  --color-sky: #6d8ca8;
+
+  --font-display: var(--font-fraunces), "Georgia", serif;
+  --font-sans: var(--font-nunito), system-ui, sans-serif;
+
+  --shadow-soft: 0 2px 16px rgba(59, 50, 42, 0.08);
+  --shadow-lift: 0 10px 40px rgba(59, 50, 42, 0.14);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-sun);
+  color: var(--color-ink);
+}
+
+/* Subtle paper grain over hero/section backgrounds */
+.texture-paper {
+  position: relative;
+}
+.texture-paper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Hand-drawn underline accent for headings */
+.underline-hand {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12' preserveAspectRatio='none'%3E%3Cpath d='M4 8 Q 50 2 100 7 T 196 6' fill='none' stroke='%23edb94e' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 0.35em;
+  padding-bottom: 0.18em;
+}
+
+/* Polaroid-style photo frames used across gallery and story pages */
+.polaroid {
+  background: #fffdf8;
+  padding: 0.6rem;
+  box-shadow: var(--shadow-soft);
+  border-radius: 0.375rem;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.polaroid:hover {
+  transform: translateY(-4px) rotate(-0.4deg);
+  box-shadow: var(--shadow-lift);
+}
+
+/* Gentle floating for decorative elements — respects reduced motion */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(2deg); }
+}
+.float-slow {
+  animation: float-slow 7s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .float-slow { animation: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* Masonry gallery via CSS columns */
+.masonry {
+  columns: 1;
+  column-gap: 1.25rem;
+}
+@media (min-width: 640px) { .masonry { columns: 2; } }
+@media (min-width: 1024px) { .masonry { columns: 3; } }
+.masonry > * {
+  break-inside: avoid;
+  margin-bottom: 1.25rem;
+}
+
+/* Print styles for receipts */
+@media print {
+  .no-print { display: none !important; }
+  body { background: white; }
+}
